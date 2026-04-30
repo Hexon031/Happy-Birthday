@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>💖 Happy Birthday, Jaan! 🎂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --pink:#ff5c8a;
+  --pink-light:#ff99c8;
+  --peach:#ffcba4;
+  --gold:#ffd166;
+  --bg-gradient: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 30%, #fff5e6 60%, #fae0e4 100%);
+  --text-dark:#590d22;
+  --text-mid:#a53860;
+  --white:#ffffff;
+}
+
+html,body{
+  width:100%;min-height:100%;
+  overflow-x:hidden;
+  font-family:'Quicksand',sans-serif;
+}
+
+body{
+  background: var(--bg-gradient);
+  background-size:400% 400%;
+  animation:bgShift 25s ease infinite;
+}
+@keyframes bgShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* ---- ROMANTIC FLOATING BG ---- */
+.bg-floaters{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-shape{
+  position:absolute;
+  animation:bgFloat linear infinite;
+  opacity:0.1;
+}
+.bg-circle { border-radius:50%; }
+@keyframes bgFloat{
+  0%{transform:translateY(110vh) rotate(0deg) scale(0.8)}
+  100%{transform:translateY(-20vh) rotate(360deg) scale(1.2)}
+}
+
+/* ---- MAIN WRAPPER ---- */
+#app{
+  position:relative;z-index:5;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;
+  padding:20px 16px 40px;
+}
+
+/* ---- TITLE ---- */
+.page-title{
+  font-family:'Pacifico',cursive;
+  font-size:clamp(26px,7vw,36px);
+  color:var(--pink);
+  text-shadow: 2px 2px 4px rgba(255, 92, 138, 0.2);
+  margin-top:24px;
+  text-align:center;
+  animation:titleDrop 1.2s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes titleDrop{
+  0% {opacity:0;transform:translateY(-30px) scale(0.9)}
+  100% {opacity:1;transform:translateY(0) scale(1)}
+}
+
+/* ---- CHARACTERS ---- */
+.chars-row{
+  display:flex;justify-content:center;gap:12px;
+  width:100%; margin-bottom:-10px; z-index:4; position:relative;
+  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.char-wrap{
+  display:flex;flex-direction:column; align-items:center;
+  animation:charEnter 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  opacity:0;transform:translateY(30px);
+}
+.char-wrap:nth-child(1){animation-delay:0.2s}
+.char-wrap:nth-child(2){animation-delay:0.4s}
+.char-wrap:nth-child(3){animation-delay:0.6s}
+@keyframes charEnter{to{opacity:1;transform:translateY(0)}}
+.char-bounce{animation:charBounce 2s ease-in-out infinite}
+.char-bounce:nth-child(2){animation-delay:0.4s}
+@keyframes charBounce{0%,100%{transform:translateY(0) scaleY(1)} 50%{transform:translateY(-8px) scaleY(0.97)}}
+
+/* Hug Animation */
+.group-hug .char-wrap:nth-child(1) { transform: translateX(35px) rotate(18deg); }
+.group-hug .char-wrap:nth-child(3) { transform: translateX(-35px) rotate(-18deg); }
+
+/* ---- INTERACTIVE STAGES ---- */
+.stage {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 30px;
+  padding: 30px 25px;
+  box-shadow: 0 15px 35px rgba(255, 92, 138, 0.1), inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+  margin-top:20px;
+  position:relative; z-index:3;
+  animation: stagePopIn 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+.stage.active { display: flex; }
+@keyframes stagePopIn{
+  0%{opacity:0; transform:scale(0.9) translateY(20px);}
+  100%{opacity:1; transform:scale(1) translateY(0);}
+}
+
+/* Buttons */
+.action-btn{
+  margin-top:20px;
+  background:linear-gradient(135deg, var(--pink), #ff3a7a);
+  color:white;border:none;
+  padding:14px 36px;border-radius:50px;
+  font-family:'Quicksand',sans-serif;
+  font-size:16px;font-weight:700;
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(255, 92, 138, 0.35);
+  transition:all 0.2s ease;
+}
+.action-btn:hover { transform: translateY(-2px); box-shadow:0 12px 30px rgba(255, 92, 138, 0.45); }
+.action-btn:active{transform:scale(0.95);box-shadow:0 4px 15px rgba(255, 92, 138, 0.3)}
+
+/* Text Styling */
+.stage-title { font-family:'Pacifico',cursive; font-size:26px; color:var(--pink); text-align:center; margin-bottom:12px; }
+.stage-text { font-size:16px; color:var(--text-dark); text-align:center; font-weight:600; line-height: 1.6;}
+
+/* ---- CAKE CSS ---- */
+#cake-svg{ width:220px; filter:drop-shadow(0 8px 20px rgba(255, 92, 138, 0.2)); margin-bottom: 15px;}
+.flame-group { transition: all 0.4s ease-out; transform-origin: center bottom; }
+
+/* ---- ROMANTIC FLOWER BLOOM ---- */
+.blooming-flowers {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+  height: 100px;
+  margin-bottom: 25px;
+}
+.flower {
+  opacity: 0;
+  transform: translateY(40px) scale(0) rotate(-20deg);
+  filter: drop-shadow(0 8px 12px rgba(255, 92, 138, 0.25));
+  display: inline-block;
+}
+.stage.active .flower { animation: bloomFlower 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, gentleSway 4s ease-in-out infinite forwards; }
+.stage.active .flower.f1 { animation-delay: 0.1s, 1s; font-size: 50px; z-index: 1; }
+.stage.active .flower.f2 { animation-delay: 0.3s, 1.2s; font-size: 65px; z-index: 2; margin-bottom: 10px; }
+.stage.active .flower.f3 { animation-delay: 0.5s, 1.4s; font-size: 80px; z-index: 3; }
+.stage.active .flower.f4 { animation-delay: 0.7s, 1.2s; font-size: 65px; z-index: 2; margin-bottom: 10px; }
+.stage.active .flower.f5 { animation-delay: 0.9s, 1s; font-size: 50px; z-index: 1; }
+
+@keyframes bloomFlower { 100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); } }
+@keyframes gentleSway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+
+/* BIG HUG ICON */
+.big-hug-icon { font-size: 90px; filter: drop-shadow(0px 10px 15px rgba(255, 92, 138, 0.2)); animation: floatItems 3.5s ease-in-out infinite; margin-bottom: 15px; }
+@keyframes floatItems { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+/* ---- THE LOVE LETTER ---- */
+.personal-note {
+  background: #fffdf7;
+  border-radius: 15px;
+  padding: 30px 25px;
+  text-align: center;
+  margin-bottom: 10px;
+  box-shadow: 0 10px 30px rgba(165, 56, 96, 0.1), inset 0 0 20px rgba(255, 153, 200, 0.05);
+  position: relative;
+}
+.personal-note::before {
+  content: ''; position: absolute; top: 0; right: 0;
+  border-width: 0 30px 30px 0; border-style: solid;
+  border-color: rgba(0,0,0,0.03) #fff rgba(0,0,0,0.03) rgba(0,0,0,0.03);
+  box-shadow: -2px 2px 5px rgba(0,0,0,0.02); border-bottom-left-radius: 5px;
+}
+.note-from { font-family: 'Quicksand', sans-serif; font-size: 14px; color: var(--text-mid); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
+.note-to { font-family: 'Dancing Script', cursive; font-size: 32px; color: var(--pink); margin-bottom: 15px; line-height: 1.2;}
+.note-msg { font-family: 'Quicksand', sans-serif; font-size: 15px; color: var(--text-dark); line-height: 1.8; font-weight: 600; }
+
+/* ---- GIFT CSS ---- */
+.gift-box { position: relative; width: 130px; height: 130px; cursor: pointer; margin: 25px 0; }
+.box-bottom { position: absolute; bottom: 0; left: 15px; width: 100px; height: 85px; background: #ff6b9d; border-radius: 6px; box-shadow: inset -12px -12px 0 rgba(0,0,0,0.1); }
+.box-ribbon-v { position: absolute; bottom: 0; left: 40px; width: 20px; height: 85px; background: #ffe66d; }
+.box-lid { position: absolute; top: 15px; left: 5px; width: 120px; height: 35px; background: #ff3a7a; border-radius: 6px; box-shadow: 0 6px 12px rgba(0,0,0,0.2); transition: all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 2; transform-origin: bottom right;}
+.box-ribbon-h { position: absolute; top: 0; left: 50px; width: 20px; height: 35px; background: #ffe66d; }
+.box-bow { position: absolute; top: -20px; left: 35px; font-size: 45px; color: #ffe66d; text-shadow: 0 3px 6px rgba(0,0,0,0.2); transition: all 0.7s ease;}
+
+.gift-box.opened .box-lid { transform: translateY(-45px) rotate(18deg); opacity: 0; }
+.gift-box.opened .box-bow { transform: translateY(-45px); opacity: 0; }
+
+.special-item { 
+  position: absolute; top: 40px; left: 50%; transform: translateX(-50%) scale(0); 
+  font-size: 70px; z-index: 1; transition: all 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+  filter: drop-shadow(0 5px 15px rgba(255, 92, 138, 0.4));
+}
+.gift-box.opened .special-item { transform: translateX(-50%) translateY(-75px) scale(1); }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Smoke, Tap Hearts & Love Balloons */
+.smoke{ position:absolute; width:8px; height:8px; border-radius:50%; background:rgba(200,160,180,0.5); pointer-events:none; animation:smokeRise 1.5s ease-out forwards; }
+@keyframes smokeRise{ 0%{transform:translateY(0) scale(1);opacity:0.7} 100%{transform:translateY(-60px) scale(5);opacity:0} }
+
+.heart-burst{ position:fixed; pointer-events:none; z-index:100; animation:heartFloat 1.5s ease-out forwards; text-shadow: 0 2px 5px rgba(255,92,138,0.3);}
+@keyframes heartFloat{ 0%{transform:translateY(0) scale(0.8);opacity:1} 100%{transform:translateY(-100px) scale(1.6);opacity:0} }
+
+.love-balloon { position: fixed; bottom: -100px; z-index: 100; pointer-events: none; animation: floatLoveBalloon ease-in forwards; filter: drop-shadow(0 5px 10px rgba(255, 92, 138, 0.3)); }
+@keyframes floatLoveBalloon { 0% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-120vh) translateX(calc(100px * var(--sway))) scale(1.3); opacity: 0; } }
+
+</style>
+</head>
+<body>
+
+<audio id="bday-music" loop preload="auto">
+  <source src="https://assets.mixkit.co/music/preview/mixkit-happy-birthday-to-you-10.mp3" type="audio/mpeg">
+</audio>
+
+<div class="bg-floaters" id="bg-floaters"></div>
+
+<div id="app">
+  <div class="page-title">
+    ✨ Happy Birthday ✨
+  </div>
+
+  <div class="chars-row" id="character-row">
+    <div class="char-wrap">
+      <svg class="char-bounce" width="76" height="88" viewBox="0 0 76 88" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="38,4 22,34 54,34" fill="#ff6b9d"/>
+        <line x1="22" y1="34" x2="54" y2="34" stroke="#ff3a7a" stroke-width="2.5"/>
+        <circle cx="38" cy="4" r="4.5" fill="#ffe66d"/>
+        <ellipse cx="38" cy="70" rx="22" ry="20" fill="white" stroke="#2a2a2a" stroke-width="1.5"/>
+        <circle cx="19" cy="17" r="9" fill="#1a1a1a"/>
+        <circle cx="57" cy="17" r="9" fill="#1a1a1a"/>
+        <circle cx="38" cy="36" r="22" fill="white" stroke="#2a2a2a" stroke-width="1.5"/>
+        <ellipse cx="29" cy="34" rx="8" ry="7" fill="#1a1a1a"/><ellipse cx="47" cy="34" rx="8" ry="7" fill="#1a1a1a"/>
+        <circle cx="29" cy="34" r="4" fill="white"/><circle cx="47" cy="34" r="4" fill="white"/>
+        <circle cx="30" cy="33" r="2.5" fill="#0a0a0a"/><circle cx="48" cy="33" r="2.5" fill="#0a0a0a"/>
+        <ellipse cx="38" cy="41" rx="4.5" ry="3" fill="#ff9eb5"/>
+        <path d="M33 45 Q38 51 43 45" stroke="#333" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <ellipse cx="18" cy="63" rx="8" ry="5" fill="#1a1a1a" transform="rotate(-30 18 63)"/>
+        <ellipse cx="58" cy="63" rx="8" ry="5" fill="#1a1a1a" transform="rotate(30 58 63)"/>
+      </svg>
+    </div>
+    <div class="char-wrap">
+      <svg class="char-bounce" style="animation-delay:0.5s" width="80" height="92" viewBox="0 0 80 92" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="40,4 26,36 54,36" fill="#ffe66d"/>
+        <line x1="26" y1="36" x2="54" y2="36" stroke="#ffc200" stroke-width="2.5"/>
+        <circle cx="40" cy="4" r="4" fill="#ff6b9d"/>
+        <ellipse cx="40" cy="72" rx="21" ry="19" fill="#c8956c" stroke="#9a6c44" stroke-width="1.3"/>
+        <circle cx="21" cy="18" r="9" fill="#c8956c" stroke="#9a6c44" stroke-width="1.2"/>
+        <circle cx="59" cy="18" r="9" fill="#c8956c" stroke="#9a6c44" stroke-width="1.2"/>
+        <circle cx="40" cy="36" r="21" fill="#c8956c" stroke="#9a6c44" stroke-width="1.3"/>
+        <circle cx="31" cy="31" r="5" fill="#3a2010"/><circle cx="49" cy="31" r="5" fill="#3a2010"/>
+        <ellipse cx="40" cy="40" rx="8" ry="6" fill="#e0b898"/>
+        <ellipse cx="40" cy="38" rx="4" ry="3" fill="#7a4a28"/>
+        <path d="M36 43 Q40 48 44 43" stroke="#7a4a28" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="21" cy="65" rx="7" ry="5" fill="#c8956c" stroke="#9a6c44" stroke-width="1" transform="rotate(-25 21 65)"/>
+        <ellipse cx="59" cy="65" rx="7" ry="5" fill="#c8956c" stroke="#9a6c44" stroke-width="1" transform="rotate(25 59 65)"/>
+      </svg>
+    </div>
+    <div class="char-wrap">
+      <svg class="char-bounce" style="animation-delay:0.25s" width="68" height="92" viewBox="0 0 68 92" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="22" cy="14" rx="7" ry="16" fill="#ffd6e7" stroke="#f4a0c0" stroke-width="1.2"/>
+        <ellipse cx="46" cy="14" rx="7" ry="16" fill="#ffd6e7" stroke="#f4a0c0" stroke-width="1.2"/>
+        <polygon points="34,22 24,44 44,44" fill="#a8f0d8"/>
+        <circle cx="34" cy="22" r="3.5" fill="#ff6b9d"/>
+        <ellipse cx="34" cy="72" rx="19" ry="18" fill="#ffd6e7" stroke="#f4a0c0" stroke-width="1.2"/>
+        <circle cx="34" cy="42" r="19" fill="#ffd6e7" stroke="#f4a0c0" stroke-width="1.2"/>
+        <circle cx="26" cy="38" r="4.5" fill="#ff6b9d"/><circle cx="42" cy="38" r="4.5" fill="#ff6b9d"/>
+        <ellipse cx="34" cy="46" rx="3" ry="2.2" fill="#ff3a7a"/>
+        <line x1="16" y1="45" x2="30" y2="47" stroke="#d080a8" stroke-width="0.8"/>
+        <line x1="16" y1="48" x2="30" y2="48" stroke="#d080a8" stroke-width="0.8"/>
+        <line x1="52" y1="45" x2="38" y2="47" stroke="#d080a8" stroke-width="0.8"/>
+        <line x1="52" y1="48" x2="38" y2="48" stroke="#d080a8" stroke-width="0.8"/>
+        <path d="M30 49 Q34 54 38 49" stroke="#c06080" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="16" cy="66" rx="7" ry="4.5" fill="#ffd6e7" stroke="#f4a0c0" stroke-width="1" transform="rotate(-25 16 66)"/>
+        <ellipse cx="52" cy="66" rx="7" ry="4.5" fill="#ffd6e7" stroke="#f4a0c0" stroke-width="1" transform="rotate(25 52 66)"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="stage active" id="stage-cake">
+    <svg id="cake-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+      <rect x="54" y="54" width="10" height="30" rx="3" fill="#ff6b6b"/>
+      <g id="flame1" class="flame-group">
+        <ellipse cx="59" cy="44" rx="6" ry="9" fill="#ffcc00"/>
+        <ellipse cx="59" cy="43" rx="4" ry="6" fill="#ff8800"/>
+      </g>
+      <rect x="105" y="44" width="10" height="40" rx="3" fill="#a78bfa"/>
+      <g id="flame2" class="flame-group">
+        <ellipse cx="110" cy="33" rx="6" ry="9" fill="#ffcc00"/>
+        <ellipse cx="110" cy="32" rx="4" ry="6" fill="#ff8800"/>
+      </g>
+      <rect x="155" y="54" width="10" height="30" rx="3" fill="#4ade80"/>
+      <g id="flame3" class="flame-group">
+        <ellipse cx="160" cy="44" rx="6" ry="9" fill="#ffcc00"/>
+        <ellipse cx="160" cy="43" rx="4" ry="6" fill="#ff8800"/>
+      </g>
+      <rect x="42" y="82" width="136" height="44" rx="10" fill="#b5eaff"/>
+      <rect x="28" y="124" width="164" height="50" rx="10" fill="#ffa0c5"/>
+      <rect x="14" y="172" width="192" height="44" rx="10" fill="#ffcba4"/>
+      <ellipse cx="110" cy="219" rx="90" ry="8" fill="rgba(255,107,157,0.08)"/>
+    </svg>
+    <p class="stage-text">Make a wish, my 0💕. 🌬️</p>
+    <button class="action-btn" onclick="nextStage('cake', 'flowers')">💨 Blow Candles</button>
+  </div>
+
+  <div class="stage" id="stage-flowers">
+    <div class="blooming-flowers">
+      <span class="flower f1">🌹</span>
+      <span class="flower f2">🌷</span>
+      <span class="flower f3">💐</span>
+      <span class="flower f4">🌸</span>
+      <span class="flower f5">🌺</span>
+    </div>
+    <h2 class="stage-title">For You!</h2>
+    <p class="stage-text">Beautiful flowers blooming just for the most beautiful girl in the world.</p>
+    <button class="action-btn" onclick="nextStage('flowers', 'hug')">Aww, thank you! 💕</button>
+  </div>
+
+  <div class="stage" id="stage-hug">
+    <div class="big-hug-icon">🤗</div>
+    <h2 class="stage-title">A BIG HUG!</h2>
+    <p class="stage-text">Sending you the biggest, warmest, tightest squeeze ever!</p>
+    <button class="action-btn" onclick="nextStage('hug', 'letter')">Hug Back! 🥰</button>
+  </div>
+
+  <div class="stage" id="stage-letter">
+    <div class="personal-note">
+      <div class="note-from">A little note from me,</div>
+      <div class="note-to">To My Mastani Bai 💕</div>
+      <p class="note-msg">I hope your day is as magical, sweet, and incredibly special as you are to me. You deserve the whole universe and more. Enjoy every second! Remember I will be always by your side and love you forever! Just enjoy being YOU 🐼</p>
+    </div>
+    <button class="action-btn" onclick="nextStage('letter', 'gift')">I have a surprise... 🎁</button>
+  </div>
+
+  <div class="stage" id="stage-gift">
+    <h2 class="stage-title" id="gift-title">Tap to open!</h2>
+    
+    <div class="gift-box" id="the-gift" onclick="openGift()">
+      <div class="box-bottom">
+        <div class="box-ribbon-v"></div>
+      </div>
+      <div class="box-lid">
+        <div class="box-ribbon-h"></div>
+      </div>
+      <div class="box-bow">🎀</div>
+      
+      <div class="special-item">😘</div> 
+    </div>
+
+    <div id="gift-desc-container" style="margin-top: 15px; text-align: center; min-height: 80px;">
+      <p class="stage-text" id="gift-desc" style="margin: 0;">A little something special just for you.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- ROMANTIC BG SHAPES ---- */
+const bgF = document.getElementById('bg-floaters');
+const colors = ['#ff99c8', '#ffcba4', '#ffb3c6', '#ffd6e0'];
+// Add circles
+for(let i=0;i<8;i++){
+  const c=document.createElement('div');
+  c.className='bg-shape bg-circle';
+  const s=50+Math.random()*150;
+  c.style.cssText=`width:${s}px;height:${s}px;background:${colors[Math.floor(Math.random()*colors.length)]};left:${Math.random()*100}%;animation-duration:${15+Math.random()*20}s;animation-delay:${Math.random()*10}s;`;
+  bgF.appendChild(c);
+}
+// Add floating text hearts
+for(let i=0;i<10;i++){
+  const h=document.createElement('div');
+  h.className='bg-shape';
+  h.innerHTML = '🤍';
+  h.style.cssText=`font-size:${20+Math.random()*30}px; left:${Math.random()*100}%;animation-duration:${10+Math.random()*15}s;animation-delay:${Math.random()*10}s; opacity: 0.15;`;
+  bgF.appendChild(h);
+}
+
+/* ---- FLICKER ---- */
+const flickerStyle=document.createElement('style');
+flickerStyle.textContent=`@keyframes flameDance{ 0%{transform:scaleX(1) scaleY(1) rotate(-1.5deg)} 100%{transform:scaleX(0.85) scaleY(1.15) rotate(1.5deg)} }`;
+document.head.appendChild(flickerStyle);
+document.querySelectorAll('.flame-group').forEach((f,i)=>{
+  f.style.animation=`flameDance ${0.35+Math.random()*0.2}s ease-in-out ${i*0.1}s infinite alternate`;
+});
+
+/* ---- LOVE BALLOONS FUNCTION ---- */
+function flyLoveBalloons() {
+  const emojis = ['🎈', '💖', '💗', '💝', '🎈', '✨'];
+  for(let i=0; i<15; i++) {
+    setTimeout(() => {
+      const b = document.createElement('div');
+      b.className = 'love-balloon';
+      b.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      b.style.left = (5 + Math.random()*90) + '%';
+      b.style.fontSize = (30 + Math.random()*20) + 'px';
+      // Set random sway direction (-1 to 1)
+      b.style.setProperty('--sway', (Math.random() > 0.5 ? 1 : -1) * Math.random());
+      b.style.animationDuration = (3 + Math.random()*2.5) + 's';
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), 6000); // cleanup
+    }, i * 150); // Stagger the releases
+  }
+}
+
+/* ---- STAGE MANAGER ---- */
+function nextStage(current, next) {
+  const currentEl = document.getElementById(`stage-${current}`);
+  const nextEl = document.getElementById(`stage-${next}`);
+
+  if(current === 'cake') {
+    // 1. Play the music!
+    const music = document.getElementById('bday-music');
+    music.volume = 0.5;
+    music.play().catch(e => console.log("Audio autoplay blocked by browser policies."));
+
+    // 2. Animate cake blowing out
+    const btn = currentEl.querySelector('button');
+    btn.style.display = 'none';
+    currentEl.querySelector('p').textContent = '🌟 Your wish is granted! 🌟';
+    
+    ['flame1','flame2','flame3'].forEach((id,i)=>{
+      setTimeout(()=>{
+        const f = document.getElementById(id);
+        f.style.transform = 'scale(0)';
+        f.style.opacity = '0';
+        spawnSmoke(f.getBoundingClientRect().left, f.getBoundingClientRect().top);
+      }, i * 300);
+    });
+
+    // 3. Move to next stage and trigger celebrations
+    setTimeout(() => { 
+      switchDivs(currentEl, nextEl); 
+      fireConfetti(); 
+      flyLoveBalloons(); // Fire the balloons here!
+    }, 1500);
+  } 
+  else if (current === 'flowers') {
+    switchDivs(currentEl, nextEl);
+    document.getElementById('character-row').classList.add('group-hug');
+  }
+  else if (current === 'hug') {
+    switchDivs(currentEl, nextEl);
+    document.getElementById('character-row').classList.remove('group-hug');
+  }
+  else {
+    switchDivs(currentEl, nextEl);
+  }
+}
+
+function switchDivs(hideEl, showEl) {
+  hideEl.classList.remove('active');
+  showEl.classList.add('active');
+}
+
+function spawnSmoke(x,y){
+  for(let i=0;i<3;i++){
+    const s=document.createElement('div');
+    s.className='smoke';
+    s.style.cssText=`left:${x+(-10+Math.random()*20)}px;top:${y}px;animation-delay:${i*0.15}s`;
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+function fireConfetti(){
+  const colors=['#ff5c8a','#ff99c8','#ffcba4','#ffd166','#ffffff'];
+  confetti({particleCount:120, spread:80, origin:{y:0.55}, colors});
+}
+
+let giftOpened = false;
+function openGift() {
+  if(giftOpened) return;
+  giftOpened = true;
+  
+  const giftBox = document.getElementById('the-gift');
+  giftBox.classList.add('opened');
+  
+  document.getElementById('gift-title').textContent = "Surprise! 🎉";
+  
+  const descContainer = document.getElementById('gift-desc');
+  
+  // Phase 1: The Initial Romantic Message
+  descContainer.innerHTML = "<span style='font-family: Pacifico, cursive; font-size: 24px; color: #ff5c8a; line-height: 1.2; display: block; animation: fadeIn 0.5s ease;'>I am your gift! 😘</span>";
+  
+  setTimeout(() => fireConfetti(), 400);
+
+  // Phase 2: The Comedic Punchline (Triggered exactly 2 seconds later)
+  setTimeout(() => {
+    descContainer.innerHTML += "<span style='display: block; margin-top: 15px; font-weight: 700; color: #a53860; font-size: 15px; animation: fadeIn 1.2s forwards; opacity: 0;'>...just kidding! Have a little patience, when I get back you will get your gift! 😉🎁</span>";
+  }, 2000); 
+}
+
+/* ---- HEARTS ON TAP ---- */
+const heartEmojis=['💖','💕','💗','🌸','✨'];
+document.addEventListener('click',e=>{
+  if(e.target.tagName === 'BUTTON') return;
+  const h=document.createElement('div');
+  h.className='heart-burst';
+  h.textContent=heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+  h.style.cssText=`left:${e.clientX-12}px;top:${e.clientY-12}px;animation-duration:1.2s;font-size:26px`;
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),1200);
+});
+</script>
+</body>
+</html>
